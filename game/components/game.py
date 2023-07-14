@@ -1,5 +1,6 @@
 import pygame
 from game.components.spaceship import Spaceship
+from game.components.life_ship import life_Spaceship
 
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
 
@@ -16,6 +17,7 @@ class Game:
         self.x_pos_bg = 0
         self.y_pos_bg = 0
         self.player = Spaceship()
+        self.life = life_Spaceship()
 
     def run(self):
         # Game loop: events - update - draw
@@ -42,6 +44,7 @@ class Game:
         self.draw_background()
         #pygame.display.update()
         self.player.draw(self.screen)
+        self.life.draw(self.screen)
         pygame.display.flip()
 
     def draw_background(self):
