@@ -29,3 +29,9 @@ ENEMY_1 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_1.png"))
 ENEMY_2 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_2.png"))
 
 FONT_STYLE = 'freesansbold.ttf'
+
+SHIP_WIDTH = 40
+SHIP_HEIGHT = 60
+X_POS = (SCREEN_WIDTH // 2 ) - SHIP_WIDTH
+Y_POS = 500
+SHIP_SPEED = 10
