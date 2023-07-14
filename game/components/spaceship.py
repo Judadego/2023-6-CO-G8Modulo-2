@@ -2,21 +2,23 @@
 from pygame.sprite import Sprite
 import pygame
 
-from game.utils.constants import SCREEN_WIDTH,SHIP_SPEED , SPACESHIP,SHIP_WIDTH,SHIP_HEIGHT,X_POS,  Y_POS
+from game.utils.constants import SCREEN_WIDTH,SCREEN_HEIGHT,SHIP_SPEED , SPACESHIP,SHIP_WIDTH,SHIP_HEIGHT,X_POS, Y_POS
 
 class Spaceship(Sprite):
 
     def __init__(self) -> None:
-        self.SHIP_WIDTH = SHIP_WIDTH
-        self.SHIP_HEIGHT = SHIP_HEIGHT
-        self.X_POS = X_POS
-        self.Y_POS = Y_POS
-        self.SHIP_SPEED = SHIP_SPEED
+        #self.SCREEN_HEIGHT = SCREEN_HEIGHT
+        #self.SCREEN_WIDTH = SCREEN_WIDTH
+        #self.SHIP_WIDTH = SHIP_WIDTH
+        #self.SHIP_HEIGHT = SHIP_HEIGHT
+        #self.X_POS = X_POS
+        #self.Y_POS = Y_POS
+        #self.SHIP_SPEED = SHIP_SPEED
         self.image = SPACESHIP 
-        self.image = pygame.transform.scale(self.image,(self.SHIP_WIDTH,self.SHIP_HEIGHT))
+        self.image = pygame.transform.scale(self.image,(SHIP_WIDTH,SHIP_HEIGHT))
         self.rect = self.image.get_rect()
-        self.rect.y = self.X_POS
-        self.rect.x = self.Y_POS
+        self.rect.y = X_POS
+        self.rect.x = Y_POS
     
     def update(self, user_input):
         if user_input[pygame.K_LEFT]:
@@ -32,13 +34,19 @@ class Spaceship(Sprite):
         screen.blit(self.image,(self.rect.x,self.rect.y))
     
     def move_left(self):
-        self.rect.x -= self.SHIP_SPEED
+        self.rect.x -= SHIP_SPEED
+        if self.rect.right < 0:
+            self.rect.x = SCREEN_WIDTH
             
     def move_right(self):
-        self.rect.x += self.SHIP_SPEED
+        self.rect.x += SHIP_SPEED
+        if self.rect.left > SCREEN_WIDTH:
+            self.rect.x = 0 - SHIP_WIDTH
     
     def move_up(self):
-        self.rect.y -= self.SHIP_SPEED
+        if self.rect.top != (SCREEN_WIDTH - (SCREEN_WIDTH * 0.90) ):
+            self.rect.y -= SHIP_SPEED
     
     def move_down(self):
-        self.rect.y += self.SHIP_SPEED
+        if self.rect.y != (Y_POS + (Y_POS * 0.10) ):
+            self.rect.y += SHIP_SPEED
