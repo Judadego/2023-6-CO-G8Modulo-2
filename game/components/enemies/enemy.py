@@ -1,19 +1,24 @@
-import random
 import pygame 
+import random
+
 from pygame.sprite import Sprite
 
-from game.utils.constants import ENEMY_1, SCREEN_HEIGHT, SCREEN_WIDTH,MOVE_X
-from game.utils.constants import SHIP_WIDTH,SHIP_HEIGHT,X_POS,Y_POS,SPEED_Y , SPEED_X  
+from game.utils.constants import ENEMY_1,ENEMY_2, SCREEN_HEIGHT, SCREEN_WIDTH,MOVE_X
+from game.utils.constants import SHIP_WIDTH,SHIP_HEIGHT,X_POS_E,Y_POS_E,SPEED_Y , SPEED_X  
 
 class Enemy(Sprite):
         
-    def __init__(self) -> None:
-        self.image = ENEMY_1
+    def __init__(self, image, color) -> None:
+        self.original_image = image
+        #self.image = ENEMY_1
+        self.color = color
+        self.image = self.original_image.copy()
+        self.image.fill(self.color, special_flags = pygame.BLEND_RGB_MULT)
         self.image = pygame.transform.scale(self.image,(SHIP_WIDTH,SHIP_WIDTH))
         self.rect = self.image.get_rect()
         self.rect = self.image.get_rect()
-        self.rect.x = X_POS[random.randint(0,10)]
-        self.rect.y = Y_POS
+        self.rect.x = X_POS_E[random.randint(0,10)]
+        self.rect.y = Y_POS_E
         self.speed_y = SPEED_Y
         self.speed_x = SPEED_X
         self.movement_x = MOVE_X[random.randint(0,1)]

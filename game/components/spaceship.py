@@ -41,5 +41,5 @@ class Spaceship(Sprite):
             self.rect.y -= SHIP_SPEED
     
     def move_down(self):
-        if self.rect.y + SHIP_WIDTH != (Y_POS + (Y_POS * 0.10) ):
+        if self.rect.y < SCREEN_HEIGHT - 80:#if self.rect.y + SHIP_WIDTH != (Y_POS + (Y_POS * 0.10) ):
             self.rect.y += SHIP_SPEED

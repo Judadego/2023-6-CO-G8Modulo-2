@@ -1,5 +1,5 @@
-from game.components.enemies.enemy_manager import EnemyManager
 import pygame
+from game.components.enemies.enemy_manager import EnemyManager
 from game.components.spaceship import Spaceship
 from game.components.life_ship import life_Spaceship
 
@@ -9,6 +9,7 @@ from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, F
 class Game:
     def __init__(self):
         pygame.init()
+        #screen_info = pygame.display.Info()
         pygame.display.set_caption(TITLE)
         pygame.display.set_icon(ICON)
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -35,6 +36,7 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.playing = False
+                exit()
 
     def update(self):
         user_input = pygame.key.get_pressed()
