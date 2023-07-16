@@ -7,13 +7,6 @@ from game.utils.constants import SCREEN_WIDTH,SCREEN_HEIGHT,SHIP_SPEED , SPACESH
 class Spaceship(Sprite):
 
     def __init__(self) -> None:
-        #self.SCREEN_HEIGHT = SCREEN_HEIGHT
-        #self.SCREEN_WIDTH = SCREEN_WIDTH
-        #self.SHIP_WIDTH = SHIP_WIDTH
-        #self.SHIP_HEIGHT = SHIP_HEIGHT
-        #self.X_POS = X_POS
-        #self.Y_POS = Y_POS
-        #self.SHIP_SPEED = SHIP_SPEED
         self.image = SPACESHIP 
         self.image = pygame.transform.scale(self.image,(SHIP_WIDTH,SHIP_HEIGHT))
         self.rect = self.image.get_rect()

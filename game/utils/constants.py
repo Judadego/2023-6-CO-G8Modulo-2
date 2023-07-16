@@ -31,8 +31,18 @@ ENEMY_2 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_2.png"))
 
 FONT_STYLE = 'freesansbold.ttf'
 
+#SpaceShip Constants
 SHIP_WIDTH = 40
 SHIP_HEIGHT = 60
 X_POS = (SCREEN_WIDTH // 2 ) - SHIP_WIDTH
 Y_POS = 500
 SHIP_SPEED = 10
+
+#Enemies Constants
+SHIP_WIDTH = 40 
+SHIP_HEIGHT = 60 
+X_POS = [50,100,150,200,250,300,350,400,450,500,550]
+Y_POS = 20
+SPEED_Y = 1 
+SPEED_X = 5
+MOVE_X = {0:'LEFT',1:'RIGHT'}
