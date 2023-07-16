@@ -12,6 +12,7 @@ class Spaceship(Sprite):
         self.rect = self.image.get_rect()
         self.rect.y = X_POS
         self.rect.x = Y_POS
+        self.is_dead = False
     
     def update(self, user_input):
         if user_input[pygame.K_LEFT]:
