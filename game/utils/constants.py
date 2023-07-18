@@ -7,8 +7,8 @@ import os
 
 # Global Constants
 TITLE = "Spaceships Game"
-SCREEN_HEIGHT = 720 #screen_info.current_h
-SCREEN_WIDTH = 1200 #screen_info.current_w
+SCREEN_HEIGHT = 600 #screen_info.current_h
+SCREEN_WIDTH = 1100 #screen_info.current_w
 FPS = 30
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
@@ -29,6 +29,7 @@ SPACESHIP_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship_
 BULLET = pygame.image.load(os.path.join(IMG_DIR, "Bullet/bullet_1.png"))
 LIFE =  pygame.image.load(os.path.join(IMG_DIR, "Other/life_spaceship.png"))
 GAME_OVER = pygame.image.load(os.path.join(IMG_DIR, "Other/GameOver.png"))
+RESET_BUTTON = pygame.image.load(os.path.join(IMG_DIR, "Other/Reset.png"))
 
 BULLET_ENEMY = pygame.image.load(os.path.join(IMG_DIR, "Bullet/bullet_2.png"))
 ENEMY_1 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_1.png"))
@@ -42,15 +43,15 @@ SHIP_WIDTH = 40
 SHIP_HEIGHT = 60
 X_POS = (SCREEN_WIDTH // 2 ) - SHIP_WIDTH
 Y_POS = 500
-SHIP_SPEED = 10
+SHIP_SPEED = 12
 
 #Enemies Constants
 SHIP_WIDTH = 60 
 SHIP_HEIGHT = 80 
-X_POS_E = [50,100,150,200,250,300,350,400,450,500,550]
-Y_POS_E = -20
-SPEED_Y = 1 
-SPEED_X = 5
+X_POS_E = [350,100,150,200,250,300,350,400,450,500,550, 600 , 650]
+Y_POS_E = [-20, -80, -140, -200, -260, -320, -380, -440, -500, -560, -620]
+SPEED_Y = [3, 4,2,1 ] 
+SPEED_X = [6,5,1,1,2]
 MOVE_X = {0:'LEFT',1:'RIGHT'}
 ENEMY_IMAGES = [ENEMY_1,ENEMY_2]
 ENEMY_COLORS = [

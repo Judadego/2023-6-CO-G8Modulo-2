@@ -2,9 +2,10 @@ import pygame
 from game.components.enemies.enemy_manager import EnemyManager
 from game.components.spaceship import Spaceship
 from game.components.life_ship import life_Spaceship
+from game.components.bullet.bullet_manager import BulletManager
 
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
-from game.utils.constants import GAME_OVER 
+from game.utils.constants import GAME_OVER , RESET_BUTTON
 
 class Game:
     def __init__(self):
@@ -20,11 +21,15 @@ class Game:
         self.y_pos_bg = 0
         self.player = Spaceship()
         self.life = life_Spaceship()
-        self.enemy_manager = EnemyManager()      
+        self.enemy_manager = EnemyManager()  
+        self.bullet_manager = BulletManager()    
         self.game_over_image = GAME_OVER 
         self.game_over_image = pygame.transform.scale(self.game_over_image,(SCREEN_WIDTH/5,SCREEN_HEIGHT/5))
         self.game_over_rect = self.game_over_image.get_rect()
         self.game_over_rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+        self.reset_button = RESET_BUTTON
+        self.reset_button_rect = self.reset_button.get_rect(topright=(SCREEN_WIDTH - 20, 20))
+        
 
     def run(self):
         # Game loop: events - update - draw
@@ -41,25 +46,32 @@ class Game:
             if event.type == pygame.QUIT:
                 self.playing = False
                 exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self.check_reset_button(mouse_pos)
 
     def update(self):
         user_input = pygame.key.get_pressed()
-        self.player.update(user_input)
-        self.enemy_manager.update()
+        self.player.update(user_input,self)
+        self.enemy_manager.update(self)
+        self.bullet_manager.update(self)
+        self.enemy_manager.update(self)
         self.check_collisions()
 
     def draw(self):
         """Draw the game objects, such as enemies, life, player, etc.
         """
         self.clock.tick(FPS)
-        self.screen.fill((255, 255, 255))
+        #self.screen.fill((255, 255, 255))
         if self.player.is_dead:
             self.screen.blit(self.game_over_image, self.game_over_rect)
+            self.screen.blit(self.reset_button, self.reset_button_rect)
         else:
             self.draw_background()
             self.player.draw(self.screen)
             self.life.draw(self.screen)
             self.enemy_manager.draw(self.screen)
+            self.bullet_manager.draw(self.screen,self)            
         pygame.display.flip()
 
     def draw_background(self):
@@ -77,7 +89,28 @@ class Game:
     def check_collisions(self):
         """Check if the frames collide
         """
+        player_collision_area = pygame.Rect(self.player.rect.x + 10, self.player.rect.y + 10, 
+                                    self.player.rect.width - 20, self.player.rect.height - 20)
+    
         for enemy in self.enemy_manager.enemies:
-            if self.player.rect.colliderect(enemy.rect):
-                self.player.is_dead = True
-                break
+             if player_collision_area.colliderect(enemy.rect):
+              self.player.is_dead = True
+              pygame.time.delay(2000)
+              break        
+
+    def check_reset_button(self, mouse_pos):
+        if self.reset_button_rect.collidepoint(mouse_pos):
+            # acciones necesarias para volver a empezar
+            #  restablecer las posiciones de los objetos, puntajes, etc.
+            self.reset_game()
+            
+    def reset_game(self):
+        self.player.is_dead = False
+        # reiniciar la posición de la nave del jugador:
+        self.player.rect.x = SCREEN_WIDTH // 2
+        self.player.rect.y = SCREEN_HEIGHT - 100
+        self.enemy_manager.enemies.empty()
+        self.bullet_manager.enemy_bullets.empty()
+        self.bullet_manager.player_bullets.empty()
+
+        self.playing = True
