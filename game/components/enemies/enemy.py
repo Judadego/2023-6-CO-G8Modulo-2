@@ -59,6 +59,6 @@ class Enemy(Sprite):
         if self.shooting_time <= current_time:
             bullet = Bullet(self)
             bullet_manager.add_bullet(bullet)
-            self.shooting_time += random.randint(30, 50)
+            self.shooting_time += random.randint(30, 70)
     
     

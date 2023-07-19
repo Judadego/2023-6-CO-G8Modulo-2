@@ -5,6 +5,7 @@ class BulletManager:
     def __init__(self):
         self.enemy_bullets = Group()
         self.player_bullets = Group()
+        self.count_bullet = 0
 
     def update(self, game):
     
@@ -13,7 +14,8 @@ class BulletManager:
                 if bullet.rect.colliderect(game.player.rect) and bullet.owner == 'enemy':
                     bullet.kill()
                     game.player.is_dead = True
-                    pygame.time.delay(2000)
+                    game.death_score += 1 
+                    pygame.time.delay(1000)
                     break
     
             for bullet in self.player_bullets:
@@ -21,7 +23,8 @@ class BulletManager:
                 for enemy in game.enemy_manager.enemies:
                     if bullet.rect.colliderect(enemy) and bullet.owner == 'player':                        
                         enemy.kill()
-                        bullet.kill()             
+                        bullet.kill()    
+                        game.score += 100         
 
     def draw(self, screen,enemy_manager):
         """ Agregamos validacion dentro del for ya que 
@@ -41,7 +44,10 @@ class BulletManager:
         Args:
             bullet (_type_): _description_
         """
-        if bullet.owner == 'enemy' and len (self.enemy_bullets) < 5:
+        num_bullet = 5
+
+        if bullet.owner == 'enemy' and len (self.enemy_bullets) < num_bullet:
             self.enemy_bullets.add(bullet)
+            self.count_bullet += num_bullet
         else:
             self.player_bullets.add(bullet)
