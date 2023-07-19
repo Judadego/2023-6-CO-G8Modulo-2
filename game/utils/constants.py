@@ -65,3 +65,6 @@ ENEMY_COLORS = [
     (0,255,255)   # cyan
     # add more colors [8 colors X 2 images = 16 Options]
 ]
+
+#GAME
+SCORE = 50

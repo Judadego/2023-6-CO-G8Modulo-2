@@ -33,7 +33,9 @@ class Game:
         self.running = False
         self.death_score = 0
         self.score = 0
-        self.menu = Menu('Press Any Key to start.....', self.screen)
+        self.score_max = 0
+        self.flag = 0 
+        self.menu = Menu('Press Any Key to start.....', self.screen,self)
         
     def execute (self):
         self.running = True
@@ -82,7 +84,7 @@ class Game:
         else:
             self.draw_background()
             self.player.draw(self.screen)
-            self.life.draw(self.screen)
+            #self.life.draw(self.screen)
             self.enemy_manager.draw(self.screen)
             self.bullet_manager.draw(self.screen,self)   
             self.draw_score()         
@@ -109,14 +111,17 @@ class Game:
         for enemy in self.enemy_manager.enemies:
              if player_collision_area.colliderect(enemy.rect):
               self.player.is_dead = True
-              pygame.time.delay(2000)
+              pygame.time.delay(1000)
               break        
 
     def check_reset_button(self, mouse_pos):
         if self.reset_button_rect.collidepoint(mouse_pos):
             # acciones necesarias para volver a empezar
             #  restablecer las posiciones de los objetos, puntajes, etc.
+            #self.show_menu()
             self.reset_game()
+            #pygame.time.delay(5000)
+            
             
     def reset_game(self):
         self.player.is_dead = False
@@ -125,6 +130,7 @@ class Game:
         self.enemy_manager.enemies.empty()
         self.bullet_manager.enemy_bullets.empty()
         self.bullet_manager.player_bullets.empty()
+        self.score = 0
 
         self.playing = True
     
@@ -134,15 +140,24 @@ class Game:
         half_screen_width = SCREEN_WIDTH // 2
         self.menu.reset_screen_color(self.screen)
 
-        if self.death_score > 0:
-            self.menu.update_message("La tarea")
-        icon = pygame.transform.scale(ICON, (80, 120))
+        #if self.death_score > 0:
+        #    self.flag = 1
+        #    self.menu.update_message("You Maxim Score.",70)
+        #    self.show_menu()
+        #    self.flag = 0
+        icon = pygame.transform.scale(ICON, (70, 110))
         self.screen.blit(icon,(half_screen_width, half_screen_height))
         self.menu.draw(self.screen)
         self.menu.update(self)
 
-    def update_score(self):
-        self.score += 1
+    def update_score(self,score):
+        self.score += score
+        if self.score_max < self.score:
+           self.score_max = self.score                       #actualizamos el maxmio escore
 
     def draw_score(self):
-        pass
+        score_max_text = self.menu.font.render(f'Max Score: {self.score_max}', True, (250,250,250))
+        self.screen.blit(score_max_text, (10, 10))
+        if self.flag == 0:
+           score_text = self.menu.font.render(f'Score: {self.score}', True, (250,250,250))
+           self.screen.blit(score_text, (10, 60))
