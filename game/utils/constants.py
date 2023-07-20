@@ -36,7 +36,7 @@ ENEMY_1 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_1.png"))
 ENEMY_2 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_2.png"))
 #please, add in ENEMY_IMAGES[ENEMY_N]
 
-FONT_STYLE = 'freesansbold.ttf'
+FONT_STYLE = 'game_over.ttf'    #'freesansbold.ttf'
 
 #SpaceShip Constants
 SHIP_WIDTH = 40
@@ -68,3 +68,7 @@ ENEMY_COLORS = [
 
 #GAME
 SCORE = 50
+
+#MENU
+HALF_SCREEN_HEIGHT = SCREEN_HEIGHT // 2
+HALF_SCREEN_WIDTH = SCREEN_WIDTH // 2

@@ -6,7 +6,7 @@ class Menu:
     HALF_SCREEN_HEIGHT = SCREEN_HEIGHT // 2
     HALF_SCREEN_WIDTH = SCREEN_WIDTH // 2
 
-    def __init__(self, message, screen,game, size_text = 50 ):
+    def __init__(self, message, screen,game, size_text = 90 ):
         self.size_text= size_text
         #screen.fill((0, 0, 0))
         self.draw_background = game.draw_background()

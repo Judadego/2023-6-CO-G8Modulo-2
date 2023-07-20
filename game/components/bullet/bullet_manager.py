@@ -1,5 +1,8 @@
-from game.utils.constants import SCORE
 import pygame 
+
+from game.utils.constants import SCORE
+from game.utils.constants import SHIELD_TYPE
+
 from pygame.sprite import Group
 
 class BulletManager:
@@ -17,11 +20,13 @@ class BulletManager:
             for bullet in self.enemy_bullets:
                 bullet.update(self.enemy_bullets)
                 if bullet.rect.colliderect(game.player.rect) and bullet.owner == 'enemy':
+                    if game.player.power_up_type != SHIELD_TYPE:
+                        #game.playing = False
+                        game.player.is_dead = True
+                        game.death_score += 1 
+                        pygame.time.delay(1000)
+                        break
                     bullet.kill()
-                    game.player.is_dead = True
-                    game.death_score += 1 
-                    pygame.time.delay(1000)
-                    break
     
             for bullet in self.player_bullets:
                 bullet.update(self.player_bullets)
