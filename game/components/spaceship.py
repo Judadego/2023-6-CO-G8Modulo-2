@@ -5,7 +5,7 @@ from pygame.sprite import Sprite
 import pygame
 
 from game.utils.constants import SCREEN_WIDTH,SCREEN_HEIGHT,SHIP_SPEED , SPACESHIP,SHIP_WIDTH,SHIP_HEIGHT,X_POS, Y_POS
-from game.utils.constants import DEFAULT_TYPE 
+from game.utils.constants import DEFAULT_TYPE ,PLAYER_SOUND
 
 class Spaceship(Sprite):
 
@@ -59,6 +59,7 @@ class Spaceship(Sprite):
     def shoot(self,bullet_manager):
         bullet = Bullet(self)
         bullet_manager.add_bullet(bullet)
+        
     
     def set_image(self, size = (SHIP_WIDTH, SHIP_HEIGHT), image = SPACESHIP):
         self.image = image

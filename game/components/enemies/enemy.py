@@ -3,7 +3,7 @@ import random
 
 from pygame.sprite import Sprite
 
-from game.utils.constants import ENEMY_1,ENEMY_2, SCREEN_HEIGHT, SCREEN_WIDTH,MOVE_X,ENEMY_COLORS
+from game.utils.constants import ENEMY_1,ENEMY_2, SCREEN_HEIGHT, SCREEN_WIDTH,MOVE_X,ENEMY_COLORS, KILL_ENEMY_SOUND
 from game.utils.constants import SHIP_WIDTH,SHIP_HEIGHT,X_POS_E,Y_POS_E,SPEED_Y , SPEED_X , ENEMY_IMAGES
 from game.components.bullet.bullet import Bullet
 
@@ -60,5 +60,7 @@ class Enemy(Sprite):
             bullet = Bullet(self)
             bullet_manager.add_bullet(bullet)
             self.shooting_time += random.randint(30, 70)
+    
+
     
     

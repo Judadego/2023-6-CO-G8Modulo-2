@@ -3,7 +3,7 @@ import pygame
 from pygame.sprite import Group
 
 from game.components.enemies.enemy import Enemy
-from game.utils.constants import ENEMY_IMAGES,ENEMY_COLORS , SHIELD_TYPE, SCORE
+from game.utils.constants import ENEMY_IMAGES,ENEMY_COLORS , SHIELD_TYPE, SCORE,KILL_ENEMY_SOUND
 from game.utils.constants import ENEMY_1,ENEMY_2, SCREEN_HEIGHT, SCREEN_WIDTH,MOVE_X
 from game.utils.constants import SHIP_WIDTH,SHIP_HEIGHT,X_POS_E,Y_POS_E,SPEED_Y , SPEED_X
 
@@ -13,7 +13,8 @@ class EnemyManager():
     def __init__(self) -> None:
         self.enemies = Group()
         #self.enemies = []
-        self.enemy_images = ENEMY_IMAGES
+        self.enemy_images = ENEMY_IMAGES        
+        self.kill_enemy_sound = KILL_ENEMY_SOUND
     
     def update(self, game):
         self.add_enemy()            
@@ -29,6 +30,7 @@ class EnemyManager():
                     break
                 else:
                     enemy.kill()
+                    pygame.mixer.Sound.play(self.kill_enemy_sound)  
                     game.update_score(SCORE) 
   
     

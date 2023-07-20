@@ -1,5 +1,6 @@
 import pygame
 import os
+pygame.mixer.init()
 
 #pygame.init()
 #screen
@@ -11,6 +12,7 @@ SCREEN_HEIGHT = 600 #screen_info.current_h
 SCREEN_WIDTH = 1100 #screen_info.current_w
 FPS = 30
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
+SOUND_PATH = os.path.join(os.path.dirname(__file__), "..", "assets")
 
 # Assets Constants
 ICON = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship.png"))
@@ -44,6 +46,7 @@ SHIP_HEIGHT = 60
 X_POS = (SCREEN_WIDTH // 2 ) - SHIP_WIDTH
 Y_POS = 500
 SHIP_SPEED = 12
+PLAYER_SOUND = pygame.mixer.Sound(os.path.join(SOUND_PATH,"sound/player_shoot.wav"))
 
 #Enemies Constants
 SHIP_WIDTH = 60 
@@ -65,10 +68,17 @@ ENEMY_COLORS = [
     (0,255,255)   # cyan
     # add more colors [8 colors X 2 images = 16 Options]
 ]
+KILL_ENEMY_SOUND = pygame.mixer.Sound(os.path.join(SOUND_PATH,"sound/kill_enemy.wav"))
 
 #GAME
 SCORE = 50
+GAME_SOUND = pygame.mixer.Sound(os.path.join(SOUND_PATH,"sound/back_sound.wav"))
+GAME_OVER_SOUND = pygame.mixer.Sound(os.path.join(SOUND_PATH,"sound/game_over.wav"))
 
 #MENU
 HALF_SCREEN_HEIGHT = SCREEN_HEIGHT // 2
 HALF_SCREEN_WIDTH = SCREEN_WIDTH // 2
+
+#power up
+POWER_UP_DURATION = 0.01
+POWER_UP_SOUND = pygame.mixer.Sound(os.path.join(SOUND_PATH,"sound/power_up.wav"))

@@ -7,7 +7,7 @@ from game.components.life_ship import life_Spaceship
 from game.components.menu import Menu
 
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
-from game.utils.constants import GAME_OVER , RESET_BUTTON, FONT_STYLE
+from game.utils.constants import GAME_OVER , RESET_BUTTON, FONT_STYLE, GAME_SOUND, GAME_OVER_SOUND
 
 class Game:
     def __init__(self):
@@ -37,6 +37,9 @@ class Game:
         self.score = 0
         self.score_max = 0
         self.flag = 0
+        self.cont = 0
+        self.back_sound = GAME_SOUND
+        self.game_over_sound = GAME_OVER_SOUND
         self.menu = Menu(' Press Any Key to start...', self.screen,self)
         
     def execute (self):
@@ -81,10 +84,15 @@ class Game:
         """
         self.clock.tick(FPS)
         #self.screen.fill((255, 255, 255))
+        
         if self.player.is_dead:
+            if self.cont == 0 :
+                pygame.mixer.Sound.play(self.game_over_sound)
+                self.cont = 1
             self.screen.blit(self.game_over_image, self.game_over_rect)
             self.screen.blit(self.reset_button, self.reset_button_rect)
         else:
+            #pygame.mixer.Sound.play(self.back_sound)
             self.draw_background()
             self.player.draw(self.screen)
             #self.life.draw(self.screen)
@@ -138,6 +146,7 @@ class Game:
         self.bullet_manager.enemy_bullets.empty()
         self.bullet_manager.player_bullets.empty()
         self.score = 0
+        self.cont = 0
 
         self.playing = True
     

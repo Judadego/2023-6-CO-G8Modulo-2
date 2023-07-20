@@ -12,6 +12,7 @@ class PowerUp(Sprite):
         self.rect.y = 0
         self.start_time = 0
         
+        
     def update(self, game_speed, power_ups):
         self.rect.y += game_speed
         if self.rect.y > SCREEN_HEIGHT:
