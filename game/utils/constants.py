@@ -23,11 +23,8 @@ BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
-DEFAULT_TYPE = "default"
-SHIELD_TYPE = 'shield'
-
 SPACESHIP = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship.png"))
-SPACESHIP_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship_shield.png"))
+
 BULLET = pygame.image.load(os.path.join(IMG_DIR, "Bullet/bullet_1.png"))
 LIFE =  pygame.image.load(os.path.join(IMG_DIR, "Other/life_spaceship.png"))
 GAME_OVER = pygame.image.load(os.path.join(IMG_DIR, "Other/GameOver.png"))
@@ -80,5 +77,11 @@ HALF_SCREEN_HEIGHT = SCREEN_HEIGHT // 2
 HALF_SCREEN_WIDTH = SCREEN_WIDTH // 2
 
 #power up
+DEFAULT_TYPE = "default"
+SHIELD_TYPE = 'shield'
+RAPID_FIRE = pygame.image.load(os.path.join(IMG_DIR, "Other/rapid_fire.png")) # asignar imagen a rapid fire
+RAPID_FIRE_TYPE = 'rapid_fire'
+RAPID_FIRE_TIME = 100
 POWER_UP_DURATION = 0.01
 POWER_UP_SOUND = pygame.mixer.Sound(os.path.join(SOUND_PATH,"sound/power_up.wav"))
+SPACESHIP_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship_shield.png"))

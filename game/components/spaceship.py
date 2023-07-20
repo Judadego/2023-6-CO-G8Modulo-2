@@ -1,11 +1,10 @@
 
-from game.components import game
 from game.components.bullet.bullet import Bullet
 from pygame.sprite import Sprite
 import pygame
 
 from game.utils.constants import SCREEN_WIDTH,SCREEN_HEIGHT,SHIP_SPEED , SPACESHIP,SHIP_WIDTH,SHIP_HEIGHT,X_POS, Y_POS
-from game.utils.constants import DEFAULT_TYPE ,PLAYER_SOUND
+from game.utils.constants import DEFAULT_TYPE ,PLAYER_SOUND, RAPID_FIRE_TIME ,RAPID_FIRE_TYPE
 
 class Spaceship(Sprite):
 
@@ -20,6 +19,7 @@ class Spaceship(Sprite):
         self.has_power_up = False
         self.power_up_type = DEFAULT_TYPE
         self.power_time_up = 0
+        self.rapid_fire_time = 0        
         self.player_collision_area = pygame.Rect(self.rect.x + 10, self.rect.y + 10, 
                                    self.rect.width - 20, self.rect.height - 20)
     
@@ -33,7 +33,7 @@ class Spaceship(Sprite):
         if user_input[pygame.K_DOWN]:
             self.move_down()
         if user_input[pygame.K_SPACE]:
-            self.shoot(game.bullet_manager)
+            self.shoot(game)
             
     def draw(self,screen):
         screen.blit(self.image,(self.rect.x,self.rect.y))
@@ -56,10 +56,9 @@ class Spaceship(Sprite):
         if self.rect.y < SCREEN_HEIGHT - 80:#if self.rect.y + SHIP_WIDTH != (Y_POS + (Y_POS * 0.10) ):
             self.rect.y += SHIP_SPEED
             
-    def shoot(self,bullet_manager):
-        bullet = Bullet(self)
-        bullet_manager.add_bullet(bullet)
-        
+    def shoot(self,game):
+            bullet = Bullet(self)
+            game.bullet_manager.add_bullet(bullet,game)
     
     def set_image(self, size = (SHIP_WIDTH, SHIP_HEIGHT), image = SPACESHIP):
         self.image = image

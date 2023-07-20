@@ -1,17 +1,18 @@
 import pygame 
 
-from game.utils.constants import SCORE, PLAYER_SOUND
+from game.utils.constants import SCORE, PLAYER_SOUND, RAPID_FIRE_TYPE
 from game.utils.constants import SHIELD_TYPE, KILL_ENEMY_SOUND
 
 from pygame.sprite import Group
 
 class BulletManager:
+    PLAYER_DELAY = 250
     def __init__(self):
         self.enemy_bullets = Group()
         self.player_bullets = Group()
         self.count_bullet = 0
         self.last_player_bullet_time = 0
-        self.player_bullet_delay = 300
+        self.player_bullet_delay = self.PLAYER_DELAY
         self.last_enemy_bullet_time = 0
         self.enemy_bullet_delay = 600        
         self.player_shoot_sound = PLAYER_SOUND
@@ -51,7 +52,7 @@ class BulletManager:
             if bullet.owner == 'player':
                     bullet.draw(screen)
 
-    def add_bullet(self, bullet):
+    def add_bullet(self, bullet, game):
         """agrega bullet, enemigos como del player
 
         Args:
@@ -66,7 +67,11 @@ class BulletManager:
                 self.last_enemy_bullet_time = current_time
         elif bullet.owner == 'player':
             current_time = pygame.time.get_ticks()
+            if game.player.has_power_up and game.player.power_up_type == RAPID_FIRE_TYPE:
+                self.player_bullet_delay = self.PLAYER_DELAY / 2
+            else:
+                 self.player_bullet_delay = self.PLAYER_DELAY
             if current_time - self.last_player_bullet_time > self.player_bullet_delay:
                 self.player_bullets.add(bullet)
-                pygame.mixer.Sound.play(self.player_shoot_sound)
+                pygame.mixer.Sound.play(self.player_shoot_sound)  
                 self.last_player_bullet_time = current_time

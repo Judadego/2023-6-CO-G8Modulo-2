@@ -147,7 +147,8 @@ class Game:
         self.bullet_manager.player_bullets.empty()
         self.score = 0
         self.cont = 0
-
+        self.player.has_power_up = False
+        self.player.power_time_up = 0
         self.playing = True
     
     
