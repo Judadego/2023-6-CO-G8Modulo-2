@@ -16,6 +16,7 @@ class Spaceship(Sprite):
         self.rect.x = Y_POS
         self.is_dead = False
         self.type = 'player'
+        self.extra_life = 0
         self.has_power_up = False
         self.power_up_type = DEFAULT_TYPE
         self.power_time_up = 0

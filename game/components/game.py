@@ -8,6 +8,7 @@ from game.components.menu import Menu
 
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
 from game.utils.constants import GAME_OVER , RESET_BUTTON, FONT_STYLE, GAME_SOUND, GAME_OVER_SOUND
+from game.utils.constants import SCORE
 
 class Game:
     def __init__(self):
@@ -89,13 +90,15 @@ class Game:
             if self.cont == 0 :
                 pygame.mixer.Sound.play(self.game_over_sound)
                 self.cont = 1
+            self.draw_enemy_dead()
             self.screen.blit(self.game_over_image, self.game_over_rect)
             self.screen.blit(self.reset_button, self.reset_button_rect)
         else:
             #pygame.mixer.Sound.play(self.back_sound)
             self.draw_background()
             self.player.draw(self.screen)
-            #self.life.draw(self.screen)
+            if self.player.extra_life > 0:
+                self.life.draw(self.screen)
             self.enemy_manager.draw(self.screen)
             self.bullet_manager.draw(self.screen,self)   
             self.power_up_manager.draw(self.screen)
@@ -150,7 +153,7 @@ class Game:
         self.player.has_power_up = False
         self.player.power_time_up = 0
         self.playing = True
-    
+        self.player.extra_life = 0
     
     def show_menu(self):
         half_screen_height = SCREEN_HEIGHT // 2
@@ -186,11 +189,16 @@ class Game:
             time_to_show = round ((self.player.power_time_up - pygame.time.get_ticks()/1000), 2)
 
             if time_to_show >= 0:
-                font = pygame.font.Font(FONT_STYLE, 30)
+                font = pygame.font.Font(FONT_STYLE, 50)
                 text = font.render(f'{self.player.power_up_type.capitalize()} is enable for {time_to_show} seconds', True, (255,255,255))
                 text_rect = text.get_rect()
-                self.screen.blit(text,(540,50))
+                self.screen.blit(text,(10,120))
             else:
                 self.player.has_power_up = False
                 self.player.power_up_type = DEFAULT_TYPE
                 self.player.set_image()
+                
+    def draw_enemy_dead(self):
+        enemies_kill = int(self.score / SCORE)
+        score_max_text = self.menu.font.render(f'You have deleted { enemies_kill } enemies.', True, (250,250,250))
+        self.screen.blit(score_max_text, (300, 350))

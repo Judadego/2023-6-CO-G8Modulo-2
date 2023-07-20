@@ -23,13 +23,17 @@ class BulletManager:
             for bullet in self.enemy_bullets:
                 bullet.update(self.enemy_bullets)
                 if bullet.rect.colliderect(game.player.rect) and bullet.owner == 'enemy':
-                    if game.player.power_up_type != SHIELD_TYPE and not game.player.is_dead:
-                        #game.playing = False
-                        game.player.is_dead = True
-                        game.death_score += 1 
-                        pygame.time.delay(1000)
-                        break
-                    bullet.kill()
+
+                        if game.player.power_up_type != SHIELD_TYPE and not game.player.is_dead:
+                            #game.playing = False
+                            if game.player.extra_life == 0:
+                                game.player.is_dead = True
+                                game.death_score += 1 
+                                pygame.time.delay(1000)
+                                break
+                            else:
+                                game.player.extra_life -= 1
+                        bullet.kill()
     
             for bullet in self.player_bullets:
                 bullet.update(self.player_bullets)

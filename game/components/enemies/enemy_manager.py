@@ -21,17 +21,23 @@ class EnemyManager():
         #lógica para que cuando la nave enemiga choque con player, perdemos la vida
         for enemy in self.enemies:
             enemy.update(self.enemies, game)
-            if enemy.rect.colliderect(game.player.rect):
+            if enemy.rect.colliderect(game.player.rect) and not game.player.is_dead:
                 
-                if game.player.power_up_type != SHIELD_TYPE:
-                    game.player.is_dead = True
-                    game.death_score += 1
-                    pygame.time.delay(500)
-                    break
-                else:
-                    enemy.kill()
-                    pygame.mixer.Sound.play(self.kill_enemy_sound)  
-                    game.update_score(SCORE) 
+                    if game.player.power_up_type != SHIELD_TYPE :
+                        if game.player.extra_life == 0:
+                            game.player.is_dead = True
+                            game.death_score += 1   
+                            pygame.time.delay(500)
+                            break
+                        else: 
+                            game.player.extra_life -= 1
+                            enemy.kill()
+                            pygame.mixer.Sound.play(self.kill_enemy_sound)  
+                    else:
+                        enemy.kill()
+                        pygame.mixer.Sound.play(self.kill_enemy_sound)  
+                        game.update_score(SCORE) 
+
   
     
     def draw(self, screen):

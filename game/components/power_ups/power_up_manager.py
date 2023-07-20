@@ -3,9 +3,10 @@ import pygame
 
 from game.components.power_ups.rapid_fire import RapidFire
 from game.components.power_ups.shield import Shield
+from game.components.power_ups.extra_life import ExtraLife
 
-from game.utils.constants import SPACESHIP_SHIELD, SHIELD_TYPE,POWER_UP_SOUND
-from game.utils.constants import POWER_UP_DURATION, RAPID_FIRE_TYPE, SPACESHIP
+from game.utils.constants import SPACESHIP_SHIELD, SHIELD_TYPE,POWER_UP_SOUND,SHIP_WIDTH, SHIP_HEIGHT
+from game.utils.constants import POWER_UP_DURATION, RAPID_FIRE_TYPE, SPACESHIP, EXTRA_LIFE_TYPE
 
 class PowerUpManager:
     def __init__(self):
@@ -29,19 +30,23 @@ class PowerUpManager:
             
             if game.player.rect.colliderect(power_up):
                 pygame.mixer.Sound(self.power_up_sound)
-                if game.player.power_up_type != SHIELD_TYPE or game.player.power_up_type != RAPID_FIRE_TYPE  and not game.player.is_dead:                    
-                    power_up.start_time = pygame.time.get_ticks()                    
-                    game.player.power_up_type = power_up.type
-                    game.player.has_power_up = True 
-                    game.player.power_time_up = (power_up.start_time /2 ) * POWER_UP_DURATION    #(self.duration * 100 )  # power_up.start_time
-                    #game.player.power_time_up = power_up.start_time + random.randint(3000, 5000)  # Duración de 3 a 5 segundos
-                    if game.player.power_up_type == SHIELD_TYPE:
-                        game.player.set_image((65, 75), SPACESHIP_SHIELD)
-                        self.power_ups.remove(power_up)
-                    elif game.player.power_up_type == RAPID_FIRE_TYPE:                        
-                        game.player.set_image((65, 75), SPACESHIP)
-                        self.power_ups.remove(power_up)
-                else:
+                if power_up.type != EXTRA_LIFE_TYPE:
+                    if game.player.power_up_type != SHIELD_TYPE or game.player.power_up_type != RAPID_FIRE_TYPE  and not game.player.is_dead :                    
+                        power_up.start_time = pygame.time.get_ticks()                    
+                        game.player.power_up_type = power_up.type
+                        game.player.has_power_up = True 
+                        game.player.power_time_up = (power_up.start_time /2 ) * POWER_UP_DURATION    #(self.duration * 100 )  # power_up.start_time
+                        #game.player.power_time_up = power_up.start_time + random.randint(3000, 5000)  # Duración de 3 a 5 segundos
+                        if game.player.power_up_type == SHIELD_TYPE:
+                            game.player.set_image(( SHIP_WIDTH*1.5,SHIP_HEIGHT), SPACESHIP_SHIELD) ##
+                            self.power_ups.remove(power_up)
+                        elif game.player.power_up_type == RAPID_FIRE_TYPE:                        
+                            game.player.set_image((SHIP_WIDTH,SHIP_HEIGHT), SPACESHIP)
+                            self.power_ups.remove(power_up)
+                elif power_up.type == EXTRA_LIFE_TYPE and not game.player.is_dead and game.player.extra_life == 0:
+                    game.player.extra_life = 1   
+                    self.power_ups.remove(power_up)
+                else: 
                     self.power_ups.remove(power_up)
                 print("2---------------")
                 print(game.player.has_power_up)
@@ -54,7 +59,7 @@ class PowerUpManager:
             power_up.draw(screen)
 
     def generate_power_up(self):
-        power_up_type = random.choice([Shield,RapidFire])
+        power_up_type = random.choice([Shield,RapidFire,ExtraLife])
         power_up = power_up_type()       
         self.when_appears += random.randint(5000, 10000)
         self.power_ups.append(power_up)
