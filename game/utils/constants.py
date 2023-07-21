@@ -71,6 +71,7 @@ KILL_ENEMY_SOUND = pygame.mixer.Sound(os.path.join(SOUND_PATH,"sound/kill_enemy.
 SCORE = 50
 GAME_SOUND = pygame.mixer.Sound(os.path.join(SOUND_PATH,"sound/back_sound.wav"))
 GAME_OVER_SOUND = pygame.mixer.Sound(os.path.join(SOUND_PATH,"sound/game_over.wav"))
+INTRO = pygame.image.load(os.path.join(IMG_DIR, "Other/intro_menu.png"))
 
 #MENU
 HALF_SCREEN_HEIGHT = SCREEN_HEIGHT // 2

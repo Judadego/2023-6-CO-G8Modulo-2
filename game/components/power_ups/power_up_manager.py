@@ -23,36 +23,29 @@ class PowerUpManager:
         
         for power_up in self.power_ups:
             power_up.update(game.game_speed, self.power_ups)
-            print("1---------------")
-            print(game.player.has_power_up)
-            print(game.player.power_time_up)
-            print(power_up.start_time)
             
             if game.player.rect.colliderect(power_up) and not game.player.is_dead:
                 pygame.mixer.Sound.play(self.power_up_sound)
                 if power_up.type != EXTRA_LIFE_TYPE:
+                    
                     if game.player.power_up_type != SHIELD_TYPE or game.player.power_up_type != RAPID_FIRE_TYPE  and not game.player.is_dead :                    
                         power_up.start_time = pygame.time.get_ticks()                    
                         game.player.power_up_type = power_up.type
                         game.player.has_power_up = True 
-                        #game.player.power_time_up = (power_up.start_time /2 ) * POWER_UP_DURATION    #(self.duration * 100 )  # power_up.start_time
                         game.player.power_time_up = power_up.start_time + (self.duration * 1000 ) #random.randint(3000, 5000)  # Duración de 3 a 5 segundos
+                        
                         if game.player.power_up_type == SHIELD_TYPE:
                             game.player.set_image(( SHIP_WIDTH*1.5,SHIP_HEIGHT), SPACESHIP_SHIELD) ##
                             self.power_ups.remove(power_up)
                         elif game.player.power_up_type == RAPID_FIRE_TYPE:                        
                             game.player.set_image((SHIP_WIDTH,SHIP_HEIGHT), SPACESHIP)
                             self.power_ups.remove(power_up)
+                            
                 elif power_up.type == EXTRA_LIFE_TYPE and not game.player.is_dead and game.player.extra_life == 0:
                     game.player.extra_life = 1   
                     self.power_ups.remove(power_up)
                 else: 
                     self.power_ups.remove(power_up)
-                print("2---------------")
-                print(game.player.has_power_up)
-                print(game.player.power_time_up)
-                print(power_up.start_time)
-
     
     def draw(self, screen):
         for power_up in self.power_ups:
@@ -63,4 +56,3 @@ class PowerUpManager:
         power_up = power_up_type()       
         self.when_appears += random.randint(5000, 10000)
         self.power_ups.append(power_up)
-        #pygame.time.set_timer(POWER_UP_TIMER_EVENT, POWER_UP_DURATION)  # Configura el temporizador

@@ -8,7 +8,7 @@ from game.components.menu import Menu
 
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
 from game.utils.constants import GAME_OVER , RESET_BUTTON, FONT_STYLE, GAME_SOUND, GAME_OVER_SOUND
-from game.utils.constants import SCORE
+from game.utils.constants import SCORE, INTRO
 
 class Game:
     def __init__(self):
@@ -117,28 +117,13 @@ class Game:
             self.screen.blit(image, (self.x_pos_bg, self.y_pos_bg - image_height))
             self.y_pos_bg = 0
         self.y_pos_bg += self.game_speed
-    
-    # este codigo ya no se requiere, se traslada a la clase Enemy_manager para 
-    # organizar mejor
-    # def check_collisions(self):
-    #    """Check if the frames collide
-    #    """
-    #    player_collision_area = pygame.Rect(self.player.rect.x + 10, self.player.rect.y + 10, 
-    #                                self.player.rect.width - 20, self.player.rect.height - 20)
-    #
-    #    for enemy in self.enemy_manager.enemies:
-    #         if player_collision_area.colliderect(enemy.rect):
-    #          self.player.is_dead = True
-    #          pygame.time.delay(1000)
-    #          break        
-
+ 
     def check_reset_button(self, mouse_pos):
         if self.reset_button_rect.collidepoint(mouse_pos):
             # acciones necesarias para volver a empezar
             #  restablecer las posiciones de los objetos, puntajes, etc.
             #self.show_menu()
             self.reset_game()
-            #pygame.time.delay(5000)
             
             
     def reset_game(self):
@@ -159,14 +144,10 @@ class Game:
         half_screen_height = SCREEN_HEIGHT - 200
         half_screen_width = SCREEN_WIDTH - 600
         self.menu.reset_screen_color(self.screen)
-
-        #if self.death_score > 0:
-        #    self.flag = 1
-        #    self.menu.update_message("You Maxim Score.",70)
-        #    self.show_menu()
-        #    self.flag = 0
-        #self.menu.update_message("Death count:" + str(self.death_score) + " Score:"+ str(self.score))
+        pygame.mixer.Sound.play(self.back_sound)
         icon = pygame.transform.scale(ICON, (70, 110))
+        intro = pygame.transform.scale(INTRO, (829, 262))
+        self.screen.blit(intro,(half_screen_width -350, half_screen_height - 400 ))
         self.screen.blit(icon,(half_screen_width, half_screen_height))
         #self.title.draw(self.screen)
         self.menu.draw(self.screen)
