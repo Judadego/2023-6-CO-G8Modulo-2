@@ -156,8 +156,8 @@ class Game:
         self.player.extra_life = 0
     
     def show_menu(self):
-        half_screen_height = SCREEN_HEIGHT // 2
-        half_screen_width = SCREEN_WIDTH // 2
+        half_screen_height = SCREEN_HEIGHT - 200
+        half_screen_width = SCREEN_WIDTH - 600
         self.menu.reset_screen_color(self.screen)
 
         #if self.death_score > 0:
@@ -186,7 +186,7 @@ class Game:
 
     def draw_power_up_time(self):
         if self.player.has_power_up:
-            time_to_show = round ((self.player.power_time_up - pygame.time.get_ticks()/1000), 2)
+            time_to_show = round((self.player.power_time_up - pygame.time.get_ticks()) / 1000, 2)
 
             if time_to_show >= 0:
                 font = pygame.font.Font(FONT_STYLE, 50)
