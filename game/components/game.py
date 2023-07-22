@@ -145,6 +145,7 @@ class Game:
         half_screen_width = SCREEN_WIDTH - 600
         self.menu.reset_screen_color(self.screen)
         pygame.mixer.Sound.play(self.back_sound)
+        pygame.time.delay(2000)
         icon = pygame.transform.scale(ICON, (70, 110))
         intro = pygame.transform.scale(INTRO, (829, 262))
         self.screen.blit(intro,(half_screen_width -350, half_screen_height - 400 ))
