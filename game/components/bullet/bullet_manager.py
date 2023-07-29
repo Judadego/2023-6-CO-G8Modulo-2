@@ -1,7 +1,7 @@
 import pygame 
 
 from game.utils.constants import SCORE, PLAYER_SOUND, RAPID_FIRE_TYPE
-from game.utils.constants import SHIELD_TYPE, KILL_ENEMY_SOUND
+from game.utils.constants import SHIELD_TYPE, KILL_ENEMY_SOUND, DOUBLE_TYPE
 
 from pygame.sprite import Group
 
@@ -27,9 +27,10 @@ class BulletManager:
                         if game.player.power_up_type != SHIELD_TYPE and not game.player.is_dead:
                             #game.playing = False
                             if game.player.extra_life == 0:
+                                pygame.time.delay(1000)
                                 game.player.is_dead = True
                                 game.death_score += 1 
-                                pygame.time.delay(1000)
+                                
                                 break
                             else:
                                 game.player.extra_life -= 1
@@ -42,7 +43,11 @@ class BulletManager:
                         enemy.kill()
                         pygame.mixer.Sound.play(self.kill_enemy_sound) 
                         bullet.kill()    
+                        game.enemy_manager.enemy_dead += 1
+                        if game.power_up_manager.double_active:
+                            game.update_score(SCORE)
                         game.update_score(SCORE)  
+
 
     def draw(self, screen,enemy_manager):
         """ Agregamos validacion dentro del for ya que 
@@ -62,8 +67,10 @@ class BulletManager:
         Args:
             bullet (_type_): _description_
         """
-        if bullet.owner == 'enemy':
+        if bullet.owner == 'enemy' :
             num_bullet = 1000
+            if game.power_up_manager.double_active:
+                num_bullet = 1000 * 3
             current_time = pygame.time.get_ticks()
             if len(self.enemy_bullets) < num_bullet and current_time - self.last_enemy_bullet_time > self.enemy_bullet_delay:                
                 self.enemy_bullets.add(bullet)

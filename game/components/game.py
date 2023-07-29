@@ -133,12 +133,14 @@ class Game:
         self.enemy_manager.enemies.empty()
         self.bullet_manager.enemy_bullets.empty()
         self.bullet_manager.player_bullets.empty()
+        #self.power_up_manager.power_ups.empty()
         self.score = 0
         self.cont = 0
         self.player.has_power_up = False
         self.player.power_time_up = 0
         self.playing = True
         self.player.extra_life = 0
+        self.enemy_manager.enemy_dead = 0
     
     def show_menu(self):
         half_screen_height = SCREEN_HEIGHT - 200
@@ -179,8 +181,21 @@ class Game:
                 self.player.has_power_up = False
                 self.player.power_up_type = DEFAULT_TYPE
                 self.player.set_image()
-                
+        if self.power_up_manager.double_active:
+            time_to_show = round((self.player.power_time_up - pygame.time.get_ticks()) / 1000, 2)
+            
+            if time_to_show >= 0:
+                font = pygame.font.Font(FONT_STYLE, 50)
+                text = font.render(f'{self.player.power_up_type.capitalize()} is enable for {time_to_show} seconds', True, (255,255,255))
+                text_rect = text.get_rect()
+                self.screen.blit(text,(10,150))
+            else:
+                self.power_up_manager.double_active = False
+                self.player.power_up_type = DEFAULT_TYPE
+                self.player.set_image()
+        
     def draw_enemy_dead(self):
-        enemies_kill = int(self.score / SCORE)
+        #enemies_kill = int(self.score / SCORE) 
+        enemies_kill = self.enemy_manager.enemy_dead
         score_max_text = self.menu.font.render(f'You have deleted { enemies_kill } enemies.', True, (250,250,250))
         self.screen.blit(score_max_text, (300, 350))

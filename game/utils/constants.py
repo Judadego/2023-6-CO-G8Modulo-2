@@ -88,3 +88,5 @@ POWER_UP_SOUND = pygame.mixer.Sound(os.path.join(SOUND_PATH,"sound/power_up.wav"
 SPACESHIP_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship_shield.png"))
 EXTRA_LIFE = pygame.image.load(os.path.join(IMG_DIR, "Other/extra_life.png")) # asignar imagen a rapid fire
 EXTRA_LIFE_TYPE = 'extra_life'
+DOUBLE = pygame.image.load(os.path.join(IMG_DIR, "Other/x2.png"))
+DOUBLE_TYPE = 'double'
