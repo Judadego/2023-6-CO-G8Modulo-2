@@ -63,13 +63,16 @@ class Game:
         pygame.quit()
 
     def events(self):
+        user_input = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.playing = False
                 exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN  :
                 mouse_pos = pygame.mouse.get_pos()
                 self.check_reset_button(mouse_pos)
+            #elif (user_input[pygame] and self.player.is_dead):
+            #    self.reset_game()
 
     def update(self):
         user_input = pygame.key.get_pressed()
@@ -85,7 +88,8 @@ class Game:
         """
         self.clock.tick(FPS)
         #self.screen.fill((255, 255, 255))
-        
+        self.draw_background()
+           
         if self.player.is_dead:
             if self.cont == 0 :
                 pygame.mixer.Sound.play(self.game_over_sound)
@@ -94,16 +98,14 @@ class Game:
             self.screen.blit(self.game_over_image, self.game_over_rect)
             self.screen.blit(self.reset_button, self.reset_button_rect)
         else:
-            #pygame.mixer.Sound.play(self.back_sound)
-            self.draw_background()
             self.player.draw(self.screen)
             if self.player.extra_life > 0:
                 self.life.draw(self.screen)
             self.enemy_manager.draw(self.screen)
             self.bullet_manager.draw(self.screen,self)   
             self.power_up_manager.draw(self.screen)
-            self.draw_power_up_time()
-            self.draw_score()         
+            self.draw_power_up_time() 
+        self.draw_score()  
         pygame.display.flip()
 
     def draw_background(self):
@@ -146,13 +148,12 @@ class Game:
         half_screen_height = SCREEN_HEIGHT - 200
         half_screen_width = SCREEN_WIDTH - 600
         self.menu.reset_screen_color(self.screen)
-        pygame.mixer.Sound.play(self.back_sound)
-        pygame.time.delay(2000)
+        #pygame.mixer.Sound.play(self.back_sound) #el audio se ejecuta muchas veces 
+        #pygame.time.delay(2000)                  #al poner delay no deja correr el background
         icon = pygame.transform.scale(ICON, (70, 110))
         intro = pygame.transform.scale(INTRO, (829, 262))
         self.screen.blit(intro,(half_screen_width -350, half_screen_height - 400 ))
         self.screen.blit(icon,(half_screen_width, half_screen_height))
-        #self.title.draw(self.screen)
         self.menu.draw(self.screen)
         self.menu.update(self)
 

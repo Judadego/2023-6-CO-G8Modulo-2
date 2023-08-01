@@ -33,7 +33,7 @@ class Spaceship(Sprite):
             self.move_up()
         if user_input[pygame.K_DOWN]:
             self.move_down()
-        if user_input[pygame.K_SPACE]:
+        if user_input[pygame.K_SPACE] and not self.is_dead:
             self.shoot(game)
             
     def draw(self,screen):

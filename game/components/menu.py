@@ -17,6 +17,7 @@ class Menu:
 
     def update(self, game):
         pygame.display.update()
+        game.draw_background()
         self.handle_events_on_menu(game)
 
     def draw(self, screen):
