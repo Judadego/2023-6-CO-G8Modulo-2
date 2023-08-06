@@ -1,4 +1,6 @@
+from game.persistence.save import read_data, save_data
 import pygame
+import os
 from game.components.enemies.enemy_manager import EnemyManager
 from game.components.power_ups.power_up_manager import PowerUpManager
 from game.components.bullet.bullet_manager import BulletManager
@@ -8,7 +10,7 @@ from game.components.menu import Menu
 
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
 from game.utils.constants import GAME_OVER , RESET_BUTTON, FONT_STYLE, GAME_SOUND, GAME_OVER_SOUND
-from game.utils.constants import SCORE, INTRO
+from game.utils.constants import INTRO
 
 class Game:
     def __init__(self):
@@ -36,12 +38,13 @@ class Game:
         self.running = False
         self.death_score = 0
         self.score = 0
-        self.score_max = 0
+        self.score_max = read_data()
         self.flag = 0
         self.cont = 0
         self.back_sound = GAME_SOUND
         self.game_over_sound = GAME_OVER_SOUND
         self.menu = Menu(' Press Any Key to start...', self.screen,self)
+        self.data = read_data()
         
     def execute (self):
         self.running = True
@@ -94,9 +97,11 @@ class Game:
             if self.cont == 0 :
                 pygame.mixer.Sound.play(self.game_over_sound)
                 self.cont = 1
+                self.save_data_score(self.score_max)
             self.draw_enemy_dead()
             self.screen.blit(self.game_over_image, self.game_over_rect)
             self.screen.blit(self.reset_button, self.reset_button_rect)
+            
         else:
             self.player.draw(self.screen)
             if self.player.extra_life > 0:
@@ -159,11 +164,12 @@ class Game:
 
     def update_score(self,score):
         self.score += score
-        if self.score_max < self.score:
-           self.score_max = self.score                       #actualizamos el maxmio escore
+        if self.score_max['score'] < self.score:
+           self.score_max['score'] = self.score                       #actualizamos el maxmio escore
 
     def draw_score(self):
-        score_max_text = self.menu.font.render(f'Max Score: {self.score_max}', True, (250,250,250))
+        score = self.score_max['score']
+        score_max_text = self.menu.font.render(f'Max Score: {score}', True, (250,250,250))
         self.screen.blit(score_max_text, (10, 10))
         if self.flag == 0:
            score_text = self.menu.font.render(f'Score: {self.score}', True, (250,250,250))
@@ -200,3 +206,16 @@ class Game:
         enemies_kill = self.enemy_manager.enemy_dead
         score_max_text = self.menu.font.render(f'You have deleted { enemies_kill } enemies.', True, (250,250,250))
         self.screen.blit(score_max_text, (300, 350))
+
+    def save_data_score(self, score_max): 
+        """Comprueba el score max actual con el almacenado en score.json
+
+        Args:
+            score_max (dict): dict 
+
+        Returns:
+            Null
+        """
+        datos = read_data()
+        if datos['score'] < score_max['score']:            
+            save_data(score_max)
