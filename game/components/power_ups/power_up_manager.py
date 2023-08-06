@@ -46,8 +46,8 @@ class PowerUpManager:
                             #self.power_ups.remove(power_up)     
                         #self.power_ups.remove(power_up)
                             
-                elif power_up.type == EXTRA_LIFE_TYPE and not game.player.is_dead and game.player.extra_life == 0:
-                    game.player.extra_life = 1   
+                elif power_up.type == EXTRA_LIFE_TYPE and not game.player.is_dead and game.player.extra_life < 10:
+                    game.player.extra_life += 1   
                     #self.power_ups.remove(power_up)
                 
                 elif power_up.type == DOUBLE_TYPE and not self.double_active :

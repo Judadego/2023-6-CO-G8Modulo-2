@@ -10,7 +10,7 @@ class life_Spaceship():
         self.image = pygame.transform.scale(self.image,(SHIP_WIDTH,SHIP_HEIGHT))
         self.rect = self.image.get_rect()
         self.rect.y = 500
-        self.rect.x = 40
+        self.rect.x = 30
         pass
     
     def draw(self,screen):

@@ -16,6 +16,9 @@ class EnemyManager():
         self.enemy_images = ENEMY_IMAGES        
         self.kill_enemy_sound = KILL_ENEMY_SOUND
         self.enemy_dead = 0
+        self.min_enemy = 2
+        self.max_enemy = 3
+        self.record_next_level = 1000
     
     def update(self, game):
         self.add_enemy(game)            
@@ -48,12 +51,14 @@ class EnemyManager():
         for enemy in self.enemies:
             enemy.draw(screen)
     
-    def add_enemy(self, game):
-        min = 1
-        max = 3
+    def add_enemy(self, game):     
+        self.level(game)
         if game.power_up_manager.double_active:
-            min = min * 2 
-            max = max * 2
+            min = self.min_enemy * 2 
+            max = self.max_enemy * 2
+        else:
+            min = self.min_enemy
+            max = self.max_enemy
         num_enemy = random.randint(min,max)
         
         if len(self.enemies) < num_enemy :
@@ -61,9 +66,17 @@ class EnemyManager():
             color = random.choice(ENEMY_COLORS)
             speed_y = random.choice(SPEED_Y)
             speed_x = random.choice(SPEED_X)
-            move_x_for = (30,100)
+            move_x_for = (20,200)
             enemy = Enemy(image,color,speed_x,speed_y,move_x_for)
             #self.enemies.append(enemy)
             self.enemies.add(enemy)
 
+    def level (self, game):   
+        """Cada 1000 puntos sube el nivel añadiendo dos enemigos
+        """     
+        if game.score > self.record_next_level: 
+            self.max_enemy = self.max_enemy + 2
+            self.min_enemy += 2 
+            self.record_next_level += 1000
+            game.level += 1
             

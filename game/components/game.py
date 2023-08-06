@@ -45,6 +45,7 @@ class Game:
         self.game_over_sound = GAME_OVER_SOUND
         self.menu = Menu(' Press Any Key to start...', self.screen,self)
         self.data = read_data()
+        self.level = 1 #añadir logica para subir de nivel
         
     def execute (self):
         self.running = True
@@ -106,6 +107,9 @@ class Game:
             self.player.draw(self.screen)
             if self.player.extra_life > 0:
                 self.life.draw(self.screen)
+                font = pygame.font.Font(FONT_STYLE, 50)
+                text = font.render(f'X {self.player.extra_life} ', True, (255,255,255))
+                self.screen.blit(text,(100,500))
             self.enemy_manager.draw(self.screen)
             self.bullet_manager.draw(self.screen,self)   
             self.power_up_manager.draw(self.screen)
@@ -116,7 +120,9 @@ class Game:
     def draw_background(self):
         """Draw the background
         """
-        image = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        image = BG.copy()
+        image.fill((255,255,255), special_flags = pygame.BLEND_RGB_MULT)
+        image = pygame.transform.scale(image, (SCREEN_WIDTH, SCREEN_HEIGHT))
         image_height = image.get_height()
         self.screen.blit(image, (self.x_pos_bg, self.y_pos_bg))
         self.screen.blit(image, (self.x_pos_bg, self.y_pos_bg - image_height))
@@ -126,7 +132,7 @@ class Game:
         self.y_pos_bg += self.game_speed
  
     def check_reset_button(self, mouse_pos):
-        if self.reset_button_rect.collidepoint(mouse_pos):
+        if self.reset_button_rect.collidepoint(mouse_pos) and self.player.is_dead:
             # acciones necesarias para volver a empezar
             #  restablecer las posiciones de los objetos, puntajes, etc.
             #self.show_menu()
@@ -148,6 +154,9 @@ class Game:
         self.playing = True
         self.player.extra_life = 0
         self.enemy_manager.enemy_dead = 0
+        self.enemy_manager.min_enemy = 2
+        self.enemy_manager.max_enemy = 3
+        self.record = 1000
     
     def show_menu(self):
         half_screen_height = SCREEN_HEIGHT - 200
